@@ -1,0 +1,50 @@
+<template>
+
+    <div class="slds-page-header">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    
+                    <div class="slds-media__body" style="text-align: center;">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title" style="text-align: center;">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate"
+                                        title="Rohde Corp - 80,000 Widgets">
+                                    </span>
+                                </h1>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <lightning-card>
+        <div class="slds-grid slds-gutters">
+
+
+            <div class="slds-col slds-size_3-of-12">
+                <c-feedback-list></c-feedback-list>
+            </div>
+            <div class="slds-col slds-size_9-of-12">
+                <!-- test for modal-->
+
+                <!-- test for modal-->
+                <template if:true={NewTemplateDisplay}>
+                    <c-create-feedback-template></c-create-feedback-template>
+                </template>
+                <template if:true={ModifyTemplateDisplay}>
+                    <c-modify-feedback-template id-template={idSelectedTemplate} templateis-sent={isSentSelectedTemplate}></c-modify-feedback-template>
+                </template>
+                <template if:true={imageDisplay}> 
+
+                    <img src={EmptySpace} style="width: 80%; height : 80% ; margin-left : 10%">
+                </template>
+            </div>
+        </div>
+
+    </lightning-card>
+</template>

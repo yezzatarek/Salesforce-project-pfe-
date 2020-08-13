@@ -1,0 +1,205 @@
+<template>
+    <div class="c-container">
+        <article class="slds-card" style="height: 34rem;">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="standard:case" alternative-text="Approved" title="Approved">
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                <span>Transmitted Claims</span>
+                            </a>
+                        </h2>
+                    </div>
+
+                </header>
+            </div>
+
+
+            <!-- style="width: 25%; margin-left : 60px ;" -->
+
+            <div class="slds-m-bottom-small" style="width:300px; margin-left: 5em;">
+                <lightning-input name="enter-search" type="search" onchange={handleSearch}>
+                </lightning-input>
+            </div>
+
+
+
+            <div class="slds-card__body slds-card__body_inner">
+                <!--
+                <div class="slds-scrollable_y" style="height:30rem;width:90%"> -->
+                <div class="slds-scrollable" style="height:20rem;width:76rem;margin:auto">
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
+                        role="grid">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Claim Number</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Company">Subject</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Title">Status</div>
+                                </th>
+
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Title" style="margin-right: 60px;">Actions</div>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- List when Search is off-->
+                            <template for:each={AllCases.data} for:item="cas" if:false={SearchON}>
+
+                                <tr class="slds-hint-parent" key={cas.CaseNumber}>
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="">
+
+                                            <button class="slds-button " value={cas.CaseNumber} title={cas.Subject}
+                                                name={cas.Description}
+                                                onclick={activateDescModal}>{cas.CaseNumber}</button>
+                                        </div>
+                                    </th>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title=""> {cas.Subject}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title="">{cas.Status}</div>
+                                    </td>
+
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title="">
+
+                                            <button class="slds-button slds-button_brand" onclick={handleCloseCase}
+                                                value={cas.CaseNumber}
+                                                style="background-color: red; border-color : red ;">Close
+                                            </button>
+                                            <button class="slds-button slds-button_brand" value={cas.Id}
+                                                name={cas.Status} onclick={handleAssign}
+                                                style="background-color: green; border-color:green;">Assign
+                                                Technician</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <!-- END List when Search is off-->
+
+                            <!-- List when Search is on-->
+                            <template for:each={filteredCases.data} for:item="cas" if:true={SearchON}>
+
+                                <tr class="slds-hint-parent" key={cas.CaseNumber}>
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="">
+
+                                            <button class="slds-button slds-button_outline-brand" value={cas.CaseNumber}
+                                                title={cas.Subject} name={cas.Description}
+                                                onclick={activateDescModal}>{cas.CaseNumber}</button>
+                                        </div>
+                                    </th>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title=""> {cas.Subject}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title="">{cas.Status}</div>
+                                    </td>
+
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title="">
+                                            <button class="slds-button slds-button_brand" onclick={handleCloseCase}
+                                                value={cas.CaseNumber} style="background-color: red;">Close
+                                                </button>
+                                            <button class="slds-button slds-button_brand" value={cas.Id}
+                                                name={cas.Status} onclick={handleAssign}
+                                                style="background-color: green;">Assign
+                                                Technician</button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+
+                            <!-- END List when Search is on-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </article>
+    </div>
+    <!-- Modal for Close confirm -->
+    <template if:true={closeCaseModalActive}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true"
+            aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close">
+                        <svg class="slds-button__icon slds-button__icon_large" aria-hidden="false">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate">Close Claim</h2>
+
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3"
+                    style="text-align: center;">
+                    <p>Are you sure you want to close this Claim?</p>
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral"
+                        onclick={handleModalCloseCancelButton}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleModalCloseButton}>Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- END Modal for Close confirm -->
+    <!-- Modal for case description-->
+    <template if:true={DescriptionModalActive}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="font-weight: bold;">
+                        Claim Details</h2>
+
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <h2>Number:
+                        {DescriptionModalDetails.Number}</h2>
+                    <p class="slds-m-top_x-small">
+                        Technician :
+                        {DescriptionModalDetails.Technician}
+                    </p>
+                    <p class="slds-m-top_x-small">
+                        Subject :
+                        {DescriptionModalDetails.Subject}
+                    </p>
+                    <p class="slds-m-top_x-small">
+                        Description :
+                        {DescriptionModalDetails.Description}
+                    </p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCancelDescrModal}>Cancel</button>
+                    <!-- <button class="slds-button slds-button_brand">Save</button> -->
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--END Modal for case description-->
+
+</template>

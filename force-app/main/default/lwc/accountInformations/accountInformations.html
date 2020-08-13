@@ -1,0 +1,104 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:person_account" alternative-text="Approved" title="Approved">
+                    </lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                            <span>Account Details</span>
+                        </a>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <!-- <button class="slds-button slds-button_neutral"> More Details </button>-->
+                    <template if:true={accountLoad}>
+                        <a href={url} onclick={handleClick} name="accountDetail" target="_blank" >
+                            <button class="slds-button slds-button_neutral">
+                                More Details
+                            </button>
+                        </a>
+                    </template>
+                </div>
+                <div class="slds-no-flex">
+                    <template if:true={accountLoad}>
+                        <a href={createCaseUrl} onclick={handleClick} name="createCase">
+                            <button class="slds-button slds-button_neutral" value={accountId} type="submit"> New Claim
+                            </button>
+                        </a>
+                    </template>
+                </div>
+            </header>
+        </div>
+
+        <div class="slds-card__body slds-card__body_inner slds-scrollable_y" style="height:20rem;">
+
+
+            <template for:each={accountInformations.data} for:item="account" if:true={accountLoad}>
+                <!-- Bussiness Account -->
+                <template if:true={BusinessRecordType}>
+                    
+                    <ul key={account.Id}>
+                        <li>
+                            <h3> Name : {account.Name}</h3>
+                        </li>
+                        <li>
+                            <h3> Industry : {industryAccount}</h3>
+                        </li>
+                        <li>
+                            <h3> Phone : {account.Phone}</h3>
+                        </li>
+                        <li>
+                            <h3> fax : {account.Fax}</h3>
+                        </li>
+                        <li>
+                            <h3> Email : {account.Email__c}</h3>
+                        </li>
+                        <li>
+                            <h3> Website : {account.Website}</h3>
+                        </li>
+                        <li>
+                            <h3> Description : {account.Description}</h3>
+                        </li>
+
+                    </ul>
+                </template>
+                <!-- Personal Account -->
+                <template if:true={personalRecordType}>
+                    
+                    <ul key={account.Id}>
+                        <li>
+                            <h3> Name : {account.Name}</h3>
+                        </li>
+                        <li>
+                            <h3> Phone : {account.Phone}</h3>
+                        </li>
+                        <li>
+                            <h3> Email : {account.Email__c}</h3>
+                        </li>
+                        <li>
+                            <h3> Description : {account.Description}</h3>
+                        </li>
+
+                    </ul>
+                </template>
+            </template>
+
+            <!-- template for no access account-->
+            <template if:false={accountLoad}>
+                <img src={EmptySpace}>
+            </template>
+
+
+
+
+
+
+
+        </div>
+
+    </article>
+</template>

@@ -1,0 +1,124 @@
+<template>
+    <div class="c-container">
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="standard:template" alternative-text="description" title="template">
+
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate"
+                                title="Feedbacks">
+                                <span> Feedbacks</span>
+                            </a>
+                        </h2>
+                    </div>
+                    <!--
+                    <template if:true={feedbackLoad}>
+                        <button class="slds-button slds-button_neutral">Account Details</button>
+                    </template>
+                    -->
+                </header>
+            </div>
+            <template if:true={feedbackLoad}>
+                <div onkeyup={handleKeyUp}>
+                    <lightning-input name="enter-search" type="search" onchange={getFilteredFeedbacks}>
+                    </lightning-input>
+                </div>
+                <div class="slds-card__body">
+                    <div class="slds-card__body slds-scrollable_y" style="height:20rem;">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
+                            role="grid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Name"> Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Name">Create Date</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Name"> </div>
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--List of feebacks when filter is off-->
+                                <template for:each={feedbacks.data} for:item='feedback' if:false={searchActivation}>
+                                    <tr class="slds-hint-parent" key={feedback.id_external_feedback__c}>
+                                        <th scope="row">
+                                            <div class="slds-truncate" title="" style="text-align: left;">
+                                                <a href="javascript:void(0);" tabindex="-1"> {feedback.Name} </a>
+                                            </div>
+
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate" title="" style="text-align: left;">
+
+                                                <lightning-formatted-date-time value="1547250828000" time-zone="UTC">
+                                                    {feedback.CreatedDate}
+                                                </lightning-formatted-date-time>
+                                            </div>
+
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate" title="" style="text-align: right;">
+
+                                                <button class="slds-button slds-button_brand" onclick={handleShow}
+                                                    value={feedback.Id}>Show</button>
+                                            </div>
+
+                                        </th>
+                                    </tr>
+                                </template>
+                                <!--List of feebacks when filter is on-->
+                                <template for:each={filteredFeedbacks.data} for:item='filteredFeedback'
+                                    if:true={searchActivation}>
+                                    <tr class="slds-hint-parent" key={filteredFeedback.id_external_feedback__c}>
+                                        <th scope="row">
+                                            <div class="slds-truncate" title="" style="text-align: left;">
+                                                <a href="javascript:void(0);" tabindex="-1"> {filteredFeedback.Name}
+                                                </a>
+                                            </div>
+
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate" title="" style="text-align: left;">
+
+                                                <lightning-formatted-date-time value="1547250828000" time-zone="UTC">
+                                                    {filteredFeedback.CreatedDate}
+                                                </lightning-formatted-date-time>
+                                            </div>
+
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate" title="" style="text-align: right;">
+
+                                                <button class="slds-button slds-button_brand" onclick={handleShow}
+                                                    value={filteredFeedback.Id}>Show</button>
+                                            </div>
+
+                                        </th>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </template>
+            <template if:false={feedbackLoad}>
+                <img src={EmptySpace}>
+            </template>
+        </article>
+    </div>
+
+
+
+
+</template>

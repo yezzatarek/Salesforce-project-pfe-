@@ -1,0 +1,32 @@
+<template>
+   <lightning-card> 
+        <div class="slds-grid slds-grid_align-space">
+            <div class="slds-col slds-size_3-of-12" style="padding: 5px;">
+                <c-account-list></c-account-list>
+            </div>
+            <div class="slds-col slds-size_5-of-12">
+                <div class="row" style="height: 45%;">
+                    <c-account-informations></c-account-informations>
+                </div>
+                <div class="row" style="height: 30%; margin-top:10% ;">  
+                    <c-case-description></c-case-description>
+                </div>
+                <!--
+                <div class="row">
+                    <c-create-case-create-case-english layout="lightning" prefill='\{"contextId":"0013z00002PCIi9AAH","OmniScriptType":"FAQ"}'>
+
+                    </c-create-case-create-case-english>
+                </div>
+            -->
+            </div>
+            <div class="slds-col slds-size_4-of-12" style="padding: 5px;">
+                <div class="row">
+                    <c-case-list></c-case-list>
+                </div>
+                <div class="row">
+                    <c-local-mapping></c-local-mapping>
+                </div>
+            </div>
+        </div>
+     </lightning-card> 
+</template>

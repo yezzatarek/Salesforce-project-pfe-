@@ -1,0 +1,16 @@
+<template>
+    <template if:false={locationLoaded}>
+        <!-- the map component -->
+        <div style="margin-top: 70px;">
+            <lightning-map map-markers={mapMarkers}>
+            </lightning-map>
+        </div>
+    </template>
+    <template if:true={locationLoaded}>
+        <!-- the map component -->
+        <div style="margin-top: 70px;">
+            <lightning-map map-markers={mapMarkers} zoom-level={zoomLevel}>
+            </lightning-map>
+        </div>
+    </template>
+</template>

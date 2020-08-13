@@ -1,0 +1,62 @@
+<template>
+    <div class="c-container">
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <!--
+                        <span class="slds-icon_container slds-icon-standard-account" title="account">
+                            <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Answers</span>
+                        </span>
+                    -->
+                        <lightning-icon icon-name="standard:feedback" alternative-text="description"
+                            title="question_feed">
+
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                <span>Answers</span>
+                            </a>
+                        </h2>
+                    </div>
+                    <!--
+                    <template if:true={answersLoad}>
+                        <button class="slds-button slds-button_neutral">Template Details</button>
+                    </template>
+                    -->
+                </header>
+            </div>
+            <div class="slds-card__body  slds-scrollable_y" style="height:25rem; margin: 20px;">
+                <template for:each={AQList} for:item='aq' if:true={answersLoad}>
+                    <div class="slds-form-element" key={aq.question} style="margin: 20px; ">
+                        <lightning-icon icon-name="utility:answer" alternative-text="description" title="question_feed">
+
+                        </lightning-icon>
+                        <!--
+                        <input type="text" placeholder={aq.question} class="slds-input" readonly
+                            style="margin: 5px; background-color : #FBE07C;" />
+
+                        -->
+                        <div style="margin: 5px; background-color : #FBE07C;  border-radius : 5px; width : 430px ; padding-left : 5px;">
+                            {aq.question}</div>
+                        <div style="margin: 5px; background-color : #7CFBCE;  border-radius : 5px; width : 430px ; padding-left : 5px;">
+                            {aq.answer}</div>
+                        <!--
+                        <input type="text" placeholder={aq.answer} class="slds-input" readonly
+                            style="margin: 5px; background-color : #7CFBCE;" />
+                    -->
+                    </div>
+                </template>
+                <template if:false={answersLoad}>
+                    <img src={EmptySpace}>
+                </template>
+            </div>
+
+        </article>
+    </div>
+</template>

@@ -1,0 +1,342 @@
+<template>
+    <!--Modal for sent personalization-->
+    <template if:true={SendTemplatePersoModalActive}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate"> Select Recipient</h2>
+                    
+                    <template if:true={AllSelectedAccounts}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                           <input class="AllSelect" type="checkbox" onclick={setAllSelectedTrue} checked
+                                    disabled  style="margin-left: 10%;"/>
+                                All Customers
+                            </div>
+                            <div class="slds-col">
+                                <input class="customizeSelect" type="checkbox" onclick={setAllSelectedFalse} style="margin-left: 10%;" />
+                                A list of Customers
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={AllSelectedAccounts}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <input class="AllSelect" type="checkbox" onclick={setAllSelectedTrue} style="margin-left: 10%;" />
+                                All Customers
+                            </div>
+
+                            <div class="slds-col">
+                                <input class="customizeSelect" type="checkbox" onclick={setAllSelectedFalse} checked
+                                    disabled  style="margin-left: 10%;" />
+                               A list of Customers
+                            </div>
+
+                        </div>
+                    </template>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    <table
+                        class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
+                        role="grid">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/OOjs_UI_icon_check-constructive.svg/1024px-OOjs_UI_icon_check-constructive.svg.png"   style="width: 7%; height : 7% ;">
+                                    </div>
+                                </th>
+
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Account Name</div>
+                                </th>
+
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <!-- if not all accounts selected-->
+                            <template for:each={accounts.data} for:item='account' if:false={AllSelectedAccounts}>
+                                <tr class="slds-hint-parent" key={account.Id}>
+                                    <td>
+                                        <div class="slds-truncate" title="" style="text-align: left;">
+                                            <input type="checkbox" value={account.Id} onclick={addcheck} />
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title="" style="text-align: left;">
+                                            <a href="javascript:void(0);" tabindex="-1"> {account.Name}</a>
+                                        </div>
+                                        <div class="slds-truncate" title="" style="text-align: right;">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <!--END  if not all accounts selected-->
+                            <!--END  if  all accounts selected-->
+                            <template for:each={accounts.data} for:item='account' if:true={AllSelectedAccounts}>
+                                <tr class="slds-hint-parent" key={account.Id}>
+                                    <td>
+                                        <div class="slds-truncate" title="" style="text-align: left;">
+                                            <input type="checkbox" value={account.Id} onclick={addcheck} checked
+                                                disabled />
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title="" style="text-align: left;">
+                                            <a href="javascript:void(0);" tabindex="-1"> {account.Name}</a>
+                                        </div>
+                                        <div class="slds-truncate" title="" style="text-align: right;">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <!--END  if  all accounts selected-->
+                        </tbody>
+                    </table>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={sendingTemplateCancel}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={sendingTemplateConfirm}>Send</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--END Modal for sent personalization-->
+    <!--Modal for Sent Template-->
+    <template if:true={ModalSentActive}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close">
+                        <svg class="slds-button__icon slds-button__icon_large" aria-hidden="false">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+
+                    </button>
+                    <h2 id="modal-heading-06" class="slds-modal__title slds-hyphenate">Sending FeedbackTemplate </h2>
+
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6"
+                    style="text-align: center;">
+                    <p>Are you sure you want to send this FeedbackTemplate ?
+                        <br />
+                        If you click Send the Template will be closed and you can't Edit it !!!!
+                    </p>
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={SendTemplateCancel}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={SendTemplateConfirm}>Send</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--END Modal for Sent Template-->
+    <!--Modal for Edit Name Template -->
+    <template if:true={TemplateDescriptionModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h1 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"
+                        style="font-weight: bolder;"> Update {TemplateName}</h1>
+                    <div class="slds-form-element">
+
+                        <!--
+                        <div class="slds-form-element__control">
+                            <input type="text" required="" class="slds-input" value={TemplateName}
+                                style="border: 0px solid; text-align : center ; "  onchange={handleModalEditNameChange}/>
+                        </div>
+                    -->
+                    </div>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-input type="text" required="" class="slds-input" value={TemplateName}
+                                style="border: 0px solid; text-align : center ; " onchange={handleModalEditNameChange}
+                                label='FeedbackTemplate Name'></lightning-input>
+                        </div>
+
+                        <div class="slds-form-element__control" style="margin: 20px;">
+                            <lightning-textarea label="FeedbackTemplate Description" class="slds-textarea" rows="5"
+                                cols="50" required style="border: 0px solid; text-align : center ; "
+                                onchange={handleModalEditDescChange} value={TemplateDescription}>
+
+                            </lightning-textarea>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleModalEditCancel}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleModalEditSave}>Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- END Modal for Edit Name Template -->
+    <div class="c-container">
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="action:question_post_action" alternative-text="description"
+                            title="question_feed">
+
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <template for:each={templateObject.data} for:item='tem'>
+                                <a key={tem.Name} href="javascript:void(0);" onclick={handleEditName}
+                                    class="slds-card__header-link slds-truncate" title="Edit Name And Description">
+                                    <span> {tem.Name}</span>
+                                </a>
+                            </template>
+                        </h2>
+                    </div>
+                    <template if:false={ModifyTyped}>
+                        <!--
+                        <div class="slds-no-flex">
+                            <button class="slds-button slds-button_neutral" onclick={handleEditName}>Edit Name</button>
+                        </div>
+                        <div class="slds-no-flex">
+                            <button class="slds-button slds-button_neutral" onclick={handleEditDescription}>Edit
+                                Description</button>
+                        </div>
+                    -->
+                        <div class="slds-no-flex">
+                            <button class="slds-button slds-button_neutral" value="ok" onclick={handleEditInfor}
+                                if:true={templateisSent} disabled>Edit
+                                Template
+                            </button>
+                            <button class="slds-button slds-button_neutral" value="ok" onclick={handleEditInfor}
+                                if:false={templateisSent}>Edit
+                                Template
+                            </button>
+                        </div>
+                        <div class="slds-no-flex">
+                            <button class="slds-button slds-button_neutral" onclick={handleModify} value="ok"
+                                if:true={templateisSent} style="margin-left: 3px;" disabled>Edit
+                                Questions</button>
+                            <button class="slds-button slds-button_neutral" onclick={handleModify} value="ok"
+                                if:false={templateisSent} style="margin-left: 3px;">Edit
+                                Questions</button>
+                        </div>
+
+                        <div class="slds-no-flex">
+                            <button class="slds-button slds-button_success" value={idTemplate} onclick={sendingTemplate}
+                                if:true={templateisSent} style="margin-left: 3px;" disabled>
+                                Send
+                            </button>
+                            <button class="slds-button slds-button_success" value={idTemplate} onclick={sendingTemplate}
+                                if:false={templateisSent} style="margin-left: 3px;">
+                                Send
+                            </button>
+                        </div>
+                    </template>
+                </header>
+            </div>
+            <!-- section when modification is on -->
+            <template if:true={Modification}>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_2-of-3">
+
+                        <lightning-input name="enter-search" onchange={updateQuestions} id="inputQuestion"
+                            style="margin-left: 4%;">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+
+                        <button class="slds-button slds-button_brand" onclick={handleNewQuestion}
+                            style="margin: 6%;">Add
+                            Question</button>
+
+
+                    </div>
+                </div>
+            </template>
+
+
+            <!-- end of section when modify is on -->
+            <div class="slds-card__body">
+                <div class="slds-card__body slds-scrollable_y" style="height:20rem;">
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover  slds-table_fixed-layout"
+                        role="grid">
+
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Questions</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- List of Questions related to a template-->
+                            <template for:each={Questions.data} for:item='question' if:false={Modification}>
+                                <tr class="slds-hint-parent" key={question.Question__c}>
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="" style="text-align: left;">
+                                            <input type="text" placeholder={question.Question__c} class="slds-input"
+                                                readonly
+                                                style="border-radius: 25px; border-style: outset ; background-color: #F3F4F6 ; margin-top: 2% ; padding-left: 20px; " />
+                                            <!--   <a href="javascript:void(0);" tabindex="-1"> {question.Name} </a> -->
+                                        </div>
+
+                                    </th>
+                                </tr>
+                            </template>
+                            <!-- "END" List of Questions related to a template-->
+
+
+
+                            <!-- List of  questions to update when modification is on-->
+                            <template for:each={modifiedQuestions} for:item='question' if:true={Modification}>
+                                <tr class="slds-hint-parent" key={question.Name}>
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="" style="text-align: left;">
+                                            <input type="text" placeholder={question.Name} value={question.Name}
+                                                name={question.ID__c} class="slds-input"
+                                                style="margin: 1%; padding : 1% ; width: 99% "
+                                                onchange={handleChangeInputQuestion} />
+                                            <!---    <a href="javascript:void(0);" tabindex="-1"> {question.Name} </a> -->
+                                        </div>
+                                        <div class="slds-truncate" title="" style="text-align: right;">
+
+                                            <button class="slds-button slds-button_text-destructive"
+                                                onclick={handleDelete} name={question.Name}
+                                                value={question.ID__c}>Delete</button>
+                                        </div>
+
+                                    </th>
+                                </tr>
+                            </template>
+                            <!-- "End" List of  questions to update when modification is on-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <footer class="slds-card__footer">
+                <button class="slds-button slds-button_success" onclick={handleConfirmUpdate}>Update
+                    Template</button>
+                <button class="slds-button slds-button_neutral" onclick={handleCancelUpdate}>Cancel
+                </button>
+            </footer>
+
+
+        </article>
+    </div>
+</template>
